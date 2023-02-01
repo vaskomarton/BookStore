@@ -1,21 +1,34 @@
 package org.model;
 
+import jakarta.persistence.*;
+
 import javax.xml.crypto.Data;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
+@Entity
+@Table(name = "author")
 public class Author {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private final String name;
+    private String name;
 
-    private final Data birthDate;
+    private Date birthDate;
 
-    private ArrayList<Book> writtenBooks = new ArrayList<>();
+    @OneToMany
+    private List<Book> writtenBooks = new ArrayList<>();
 
-    public Author(String name, Data birthDate) {
+    public Author(String name, Date birthDate) {
         this.name = name;
         this.birthDate = birthDate;
+    }
+
+    public Author() {
+
     }
 
     public long getId() {
@@ -30,15 +43,22 @@ public class Author {
         return name;
     }
 
-    public Data getBirthDate() {
+    public Date getBirthDate() {
         return birthDate;
     }
 
-    public ArrayList<Book> getWrittenBooks() {
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
+/*public ArrayList<Book> getWrittenBooks() {
         return writtenBooks;
     }
 
     public void setWrittenBooks(ArrayList<Book> writtenBooks) {
         this.writtenBooks = writtenBooks;
-    }
+    }*/
 }

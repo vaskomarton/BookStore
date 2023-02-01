@@ -1,10 +1,17 @@
 package org.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "book")
 public class Book {
 
-    private final Author author;
+    @ManyToOne
+    @JoinColumn(name = "author_isbn")
+    private Author author;
 
-    private final String isbn;
+    @Id
+    private String isbn;
 
     private boolean isOnMarket = true;
 
@@ -16,6 +23,10 @@ public class Book {
     public Book(Author author, String isbn, boolean isOnMarket) {
         this(author, isbn);
         this.isOnMarket = isOnMarket;
+    }
+
+    public Book() {
+
     }
 
     public Author getAuthor() {

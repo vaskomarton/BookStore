@@ -1,13 +1,24 @@
 package org.model;
 
+import jakarta.persistence.*;
+
 import java.util.Map;
 
+@Entity
+@Table(name = "book_store")
 public class BookStore {
 
+    @ElementCollection
+    @MapKeyColumn(name="key_column")
+    @Column(name="value_column")
+    @CollectionTable(name="book_map", joinColumns=@JoinColumn(name="isbn"))
     private Map<Book, Integer> stock;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @OneToOne
     private Address address;
 
 
