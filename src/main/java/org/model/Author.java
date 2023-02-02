@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "author")
-public class Author {
+public class Author extends Queryable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,13 +21,15 @@ public class Author {
     @OneToMany
     private List<Book> writtenBooks = new ArrayList<>();
 
+
     public Author(String name, Date birthDate) {
+        this();
         this.name = name;
         this.birthDate = birthDate;
     }
 
     public Author() {
-
+        super("FROM Author");
     }
 
     public long getId() {
@@ -60,4 +62,14 @@ public class Author {
     public void setWrittenBooks(ArrayList<Book> writtenBooks) {
         this.writtenBooks = writtenBooks;
     }*/
+
+    @Override
+    public String toString() {
+        return "Author{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", birthDate=" + birthDate +
+                ", writtenBooks=" + writtenBooks +
+                '}';
+    }
 }

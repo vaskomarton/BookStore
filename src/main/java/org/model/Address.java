@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "address_of_book_store")
-public class Address {
+public class Address extends Queryable{
 
     @Id
     @Column(name = "id")
@@ -27,6 +27,7 @@ public class Address {
     private Integer postCode;
 
     public Address(String country, String city, String street, Integer houseNumber, Integer postCode) {
+        this();
         this.country = country;
         this.city = city;
         this.street = street;
@@ -35,7 +36,7 @@ public class Address {
     }
 
     public Address() {
-
+        super("FROM Address");
     }
 
 
@@ -85,5 +86,17 @@ public class Address {
 
     public void setPostCode(Integer postCode) {
         this.postCode = postCode;
+    }
+
+    @Override
+    public String toString() {
+        return "Address{" +
+                "id=" + id +
+                ", country='" + country + '\'' +
+                ", city='" + city + '\'' +
+                ", street='" + street + '\'' +
+                ", houseNumber=" + houseNumber +
+                ", postCode=" + postCode +
+                '}';
     }
 }

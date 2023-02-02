@@ -6,7 +6,7 @@ import java.util.Map;
 
 @Entity
 @Table(name = "book_store")
-public class BookStore {
+public class BookStore extends Queryable{
 
     @ElementCollection
     @MapKeyColumn(name="key_column")
@@ -22,6 +22,10 @@ public class BookStore {
     private Address address;
 
     private boolean isActive = true;
+
+    public BookStore() {
+        super("FROM BookStore");
+    }
 
     public Map<Book, Integer> getStock() {
         return stock;
@@ -53,5 +57,15 @@ public class BookStore {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    @Override
+    public String toString() {
+        return "BookStore{" +
+                "stock=" + stock +
+                ", id=" + id +
+                ", address=" + address +
+                ", isActive=" + isActive +
+                '}';
     }
 }
