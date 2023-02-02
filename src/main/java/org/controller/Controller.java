@@ -1,27 +1,26 @@
 package org.controller;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.model.Book;
+
 public class Controller implements AutoCloseable {
 
     private HibernateContext model = new HibernateContext();
-    /*
-    public void testCase(){
-        User user = new User(null, "Géza", new Date(123, 0, 30));
 
-        List<Address> addresses = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            addresses.add(new Address(user, "Hungary", "Budapest", "Bartók utca", (int) (Math.random() *100), (int) (Math.random() *100)));
-        }
-        user.setAddresses(addresses);
 
+    public void addObject(Object object) {
         Session session = model.getSession();
         Transaction tx = session.beginTransaction();
 
-        session.persist(user);
+        session.persist(object);
 
         session.flush();
 
         session.getTransaction().commit();
-    }*/
+    }
+
+
 
     @Override
     public void close() throws Exception {

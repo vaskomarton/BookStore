@@ -21,7 +21,7 @@ public class BookStore {
     @OneToOne
     private Address address;
 
-
+    private boolean isActive = true;
 
     public Map<Book, Integer> getStock() {
         return stock;
@@ -37,6 +37,14 @@ public class BookStore {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     public Address getAddress() {

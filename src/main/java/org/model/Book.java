@@ -7,21 +7,23 @@ import jakarta.persistence.*;
 public class Book {
 
     @ManyToOne
-    @JoinColumn(name = "author_isbn")
+    @JoinColumn(name = "author_id")
     private Author author;
 
     @Id
     private String isbn;
 
+    private String title;
+
     private boolean isOnMarket = true;
 
-    public Book(Author author, String isbn) {
+    public Book(Author author, String isbn, String title) {
         this.author = author;
         this.isbn = isbn;
     }
 
-    public Book(Author author, String isbn, boolean isOnMarket) {
-        this(author, isbn);
+    public Book(Author author, String isbn, String title, boolean isOnMarket) {
+        this(author, isbn, title);
         this.isOnMarket = isOnMarket;
     }
 

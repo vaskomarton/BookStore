@@ -3,7 +3,7 @@ package org.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "address")
+@Table(name = "address_of_book_store")
 public class Address {
 
     @Id

@@ -1,5 +1,6 @@
 package org.controller;
 
+import org.model.Book;
 import org.view.Menu;
 
 import java.util.Scanner;
