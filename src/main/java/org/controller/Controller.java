@@ -1,66 +1,114 @@
 package org.controller;
 
+import jakarta.persistence.Id;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
-import org.model.Book;
-import org.model.Queryable;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Controller implements AutoCloseable {
+public class Controller<T>{
 
-    private HibernateContext model = new HibernateContext();
+    private HibernateContext model;
 
+    private ArrayList<Integer> n = new ArrayList<>();
 
-    public void addObject(Object object) {
-        Session session = model.getSession();
-        Transaction tx = session.beginTransaction();
+    private T t;
 
-        session.persist(object);
-
-        session.flush();
-
-        session.getTransaction().commit();
+    public Controller(T t, HibernateContext model) {
+        this.t = t;
+        this.model = model;
     }
 
-    public void printBooks(){
-        Session session = model.getSession();
 
+    public void addObject() {
+        Session session = model.getSession();
         Transaction tx = session.beginTransaction();
 
-        Query<Book> q = session.createQuery("FROM Book", Book.class);
-        for (Book p : q.list()) {
-            System.out.println(p);
+        Field[] fields = t.getClass().getDeclaredFields();
+        System.out.println(t);
+        System.out.println(fields.length + " is the numbers of the fields");
+        for (Field field : fields) {
+            field.setAccessible(true);
+            if (!field.isAnnotationPresent(Id.class)){
+                System.out.println(String.format("Set %s-s value. The type of the input shuld be %s", field.getName(), field.getType()));
+                //field.set(t, );
+            }
         }
-        session.clear();
 
-        tx.commit();
+//        session.persist(t);
+//
+//        session.flush();
+//
+//        session.getTransaction().commit();
     }
 
-    public <T extends Queryable> void printAll(T t) {
+    //List
+    public void printAll() {
+
         Session session = model.getSession();
-
         Transaction tx = session.beginTransaction();
-
-
-        System.out.println(t.getClass().getName());
-
 
         String[] strings = t.getClass().getName().split("\\.");
         String name = strings[strings.length -1];
 
-        Query<T> q = (Query<T>) session.createQuery(t.getQuery(), t.getClass());
-        for (T p : q.list()) {
-            System.out.println(p);
-        }
-        session.clear();
+        Query<T> q = (Query<T>) session.createQuery(String.format("FROM %s", name), t.getClass());
+        List<T> tList = new ArrayList<>(q.list());
 
+
+        tList.forEach(System.out::println);
+        session.clear();
         tx.commit();
     }
 
+    //Delete
+    public void delete(Long id){
+        Session session = model.getSession();
+        Transaction tx = null;
+        try {
 
+            tx = session.beginTransaction();
 
-    @Override
-    public void close() throws Exception {
-        model.close();
+            T p = (T) session.find(t.getClass(), id);
+            session.remove(p);
+
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+    }
+
+    public void modify(Long id) {
+        Session session = model.getSession();
+        Transaction tx = null;
+        try {
+
+            tx = session.beginTransaction();
+
+            T p = (T) session.find(t.getClass(), id);
+
+            //session.remove(p);
+
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+    }
+
+    public void deactivate(long l) {
+
+    }
+
+    public T getT() {
+        return t;
+    }
+
+    public void setT(T t) {
+        this.t = t;
     }
 }

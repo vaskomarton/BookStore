@@ -27,6 +27,12 @@ public class BookStore extends Queryable{
         super("FROM BookStore");
     }
 
+    public BookStore(Map<Book, Integer> stock, Address address) {
+        this();
+        this.stock = stock;
+        this.address = address;
+    }
+
     public Map<Book, Integer> getStock() {
         return stock;
     }

@@ -18,14 +18,15 @@ public class Author extends Queryable{
 
     private Date birthDate;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Book> writtenBooks = new ArrayList<>();
 
 
-    public Author(String name, Date birthDate) {
+    public Author(String name, Date birthDate, List<Book> writtenBooks) {
         this();
         this.name = name;
         this.birthDate = birthDate;
+        this.writtenBooks = writtenBooks;
     }
 
     public Author() {
@@ -55,13 +56,17 @@ public class Author extends Queryable{
     public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
     }
-/*public ArrayList<Book> getWrittenBooks() {
+    public List<Book> getWrittenBooks() {
         return writtenBooks;
     }
 
     public void setWrittenBooks(ArrayList<Book> writtenBooks) {
         this.writtenBooks = writtenBooks;
-    }*/
+    }
+
+    public void addToWrittenBooks(Book book) {
+        writtenBooks.add(book);
+    }
 
     @Override
     public String toString() {

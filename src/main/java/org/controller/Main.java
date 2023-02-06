@@ -1,18 +1,18 @@
 package org.controller;
 
-import org.model.Book;
-import org.view.Menu;
+
+
+import org.view.MainMenu;
+import org.view.TerminalUI;
 
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws Exception {
         try (
-                Scanner scanner = new Scanner(System.in);
-                Controller controller = new Controller();
-                ){
-            Menu menu = new Menu();
-            menu.start(scanner, controller);
+                MainMenu menu = new MainMenu()
+        ){
+            menu.start(new TerminalUI());
         }
 
     }
